@@ -1,8 +1,9 @@
 import os.path
+import shutil
 import csv
 
 
-images = os.scandir(os.getcwd() + "/images")
+images = os.scandir(os.getcwd() + "/Adjectives")
 #print(images)
 sortedimages = sorted(images, key=lambda x: x.stat().st_mtime, reverse=False)
 newlist = []
@@ -10,7 +11,7 @@ newlist = []
 # Read the tsv
 def readTsv():
 	result = []
-	with open("Adjectives_Sample.tsv") as fd:
+	with open("deck.tsv", encoding='utf-8') as fd:
 		rd = csv.reader(fd, delimiter="\t")
 		
 		for row in rd:
@@ -21,18 +22,21 @@ def readTsv():
 names = ['one.png', 'two.png', 'three.png']
 def renameImages(names):
 	index = 0
+	print(len(sortedimages))
 	for i in sortedimages:
-		#print(i.name)
-	
-		if(i.name.endswith(".jpeg")):
+		if(True or i.name.endswith(".jpeg")):
 			#print(i.stat().st_ctime)
 			#print(i.stat())
+			extension = ""
+			if(i.name.endswith(".png")):
+				extension = ".png"
 			print(i.name)
 			print(names[index])
-			dir = "images/"
-			os.rename("images/" + i.name, "images/" + names[index])
+			dir = "Adjectives/"
+#			os.rename("images/" + i.name, "images/" + names[index])
+			shutil.copyfile(dir + i.name, "test1/" + names[index] + extension)
 			index = index + 1
 			
 test = readTsv()
-print(test)
+#print(test)
 renameImages(test)
